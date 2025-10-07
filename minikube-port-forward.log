@@ -1,0 +1,20 @@
+Forwarding from 0.0.0.0:30000 -> 5000
+Handling connection for 30000
+Handling connection for 30000
+Handling connection for 30000
+Handling connection for 30000
+Handling connection for 30000
+Handling connection for 30000
+Handling connection for 30000
+Handling connection for 30000
+Handling connection for 30000
+Handling connection for 30000
+Handling connection for 30000
+Handling connection for 30000
+Handling connection for 30000
+Handling connection for 30000
+Handling connection for 30000
+Handling connection for 30000
+Handling connection for 30000
+Handling connection for 30000
+E1007 15:15:17.295269    9532 portforward.go:391] "Unhandled Error" err="error copying from remote stream to local connection: readfrom tcp4 192.168.56.10:30000->192.168.56.1:37428: write tcp4 192.168.56.10:30000->192.168.56.1:37428: write: broken pipe"

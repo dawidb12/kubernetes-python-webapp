@@ -28,7 +28,7 @@ spec:
       volumes:
         - name: init-db
           hostPath:
-            # podaj tu absolutną ścieżkę do folderu db na Twojej VM
+            # an absolute path to db folder na the VM
             path: /mnt/db
             type: DirectoryOrCreate
 ---
@@ -80,5 +80,5 @@ spec:
   ports:
     - port: 5000
       targetPort: 5000
-      nodePort: 30000  # port na VM, na którym będzie dostępna aplikacja
+      nodePort: 30000  # port on VM, where the app will be available
       protocol: TCP

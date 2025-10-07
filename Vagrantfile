@@ -13,7 +13,11 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 22, host: 2200, id: "ssh"
   config.vm.network "forwarded_port", guest: 30000, host: 30000
   config.ssh.forward_agent = true
+  config.vm.provision "file", source: "minikube.service", destination: "/tmp/minikube.service"
   config.vm.provision "shell", inline: <<-SHELL
+    mv /tmp/minikube.service /usr/lib/systemd/system/minikube.service
+    chown root:root /usr/lib/systemd/system/minikube.service
+    chmod 644 /usr/lib/systemd/system/minikube.service
     apt-get update
     sudo apt remove -y docker docker.io
     sudo apt install -y apt-transport-https ca-certificates curl software-properties-common gnupg
@@ -30,13 +34,15 @@ Vagrant.configure("2") do |config|
     sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
     echo "alias k='kubectl'" >> /home/vagrant/.bashrc
     sudo -u vagrant minikube config set driver docker
-    sudo -u vagrant minikube start
+    systemctl daemon-reload
+    systemctl enable minikube
+    systemctl start minikube
     cd /vagrant && docker build -t vagrant-app:latest ./app
     sudo -u vagrant minikube image load vagrant-app:latest
     sudo -u vagrant nohup minikube mount /vagrant/db:/mnt/db > minikube-mount.log 2>&1 &
     sudo -u vagrant kubectl apply -f k8s-deployment.yaml
     sleep 60
     sudo -u vagrant nohup kubectl port-forward --address=0.0.0.0 service/app 30000:5000 > minikube-port-forward.log 2>&1 &
-    echo "Deployment gotowy."
+    echo "The deployment is ready!"
   SHELL
 end
